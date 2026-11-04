@@ -1,18 +1,25 @@
 package Arvore_B;
-
+import ordenacao.MergeSort;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * Interface de terminal. Só faz entrada e saída; a lógica fica em ArvoreB e MergeSort.
+ * Merge Sort: opção 6 (números da árvore) e opção 7 (números avulsos).
+ */
 public class MenuInterativo {
     private final int grauMinimo;
     private ArvoreB arvore;
+    // Ordem de digitação. A árvore não guarda isso, e o Merge Sort (opção 6) precisa.
+    private final List<Integer> numerosInseridos;
     private final Scanner leitor;
 
     public MenuInterativo(int grauMinimo) {
         this.grauMinimo = grauMinimo;
         this.arvore = new ArvoreB(grauMinimo);
+        this.numerosInseridos = new ArrayList<>();
         this.leitor = new Scanner(System.in);
     }
 
@@ -43,8 +50,15 @@ public class MenuInterativo {
                     break;
                 case "5":
                     arvore = new ArvoreB(grauMinimo);
+                    numerosInseridos.clear();
                     System.out.println("Árvore esvaziada.");
                     mostrarArvore();
+                    break;
+                case "6":
+                    ordenarNumerosDaArvore();
+                    break;
+                case "7":
+                    ordenarNumerosAvulsos();
                     break;
                 case "0":
                     executando = false;
@@ -56,12 +70,13 @@ public class MenuInterativo {
         System.out.println("Encerrando. Até mais!");
     }
 
-    // ---------------- Ações ----------------
+    // ---------------- Árvore ----------------
 
     private void inserirNumeros() {
         List<Integer> numeros = lerNumeros("Digite os números a inserir (separados por espaço): ");
         for (int numero : numeros) {
             if (arvore.inserir(numero)) {
+                numerosInseridos.add(numero);
                 System.out.println("\n>>> Inserido: " + numero);
             } else {
                 System.out.println("\n>>> " + numero + " já existe na árvore (ignorado).");
@@ -74,6 +89,7 @@ public class MenuInterativo {
         List<Integer> numeros = lerNumeros("Digite os números a remover (separados por espaço): ");
         for (int numero : numeros) {
             if (arvore.remover(numero)) {
+                numerosInseridos.remove(Integer.valueOf(numero)); // remove(Object), não por índice
                 System.out.println("\n>>> Removido: " + numero);
             } else {
                 System.out.println("\n>>> " + numero + " não existe na árvore.");
@@ -89,6 +105,41 @@ public class MenuInterativo {
         }
     }
 
+    // ---------------- Merge Sort ----------------
+
+    /** Ordena os números que estão na árvore, na ordem em que foram digitados. */
+    private void ordenarNumerosDaArvore() {
+        if (numerosInseridos.isEmpty()) {
+            System.out.println("A árvore está vazia, não há números para ordenar.");
+            return;
+        }
+        executarMergeSort(numerosInseridos);
+    }
+
+    /** Ordena números digitados na hora, sem mexer na árvore. */
+    private void ordenarNumerosAvulsos() {
+        List<Integer> numeros = lerNumeros("Digite os números a ordenar (separados por espaço): ");
+        if (numeros.isEmpty()) {
+            System.out.println("Nenhum número informado.");
+            return;
+        }
+        executarMergeSort(numeros);
+    }
+
+    private void executarMergeSort(List<Integer> numeros) {
+        int[] vetor = numeros.stream().mapToInt(Integer::intValue).toArray();
+        System.out.println("\nAntes:  " + Arrays.toString(vetor));
+
+        int[] ordenado;
+        if (perguntarSimOuNao("Mostrar passo a passo? (s/n): ")) {
+            System.out.println();
+            ordenado = MergeSort.ordenar(vetor, System.out::println);
+        } else {
+            ordenado = MergeSort.ordenar(vetor);
+        }
+        System.out.println("\nDepois: " + Arrays.toString(ordenado));
+    }
+
     // ---------------- Auxiliares ----------------
 
     private void mostrarArvore() {
@@ -98,10 +149,20 @@ public class MenuInterativo {
     }
 
     private void exibirMenu() {
-        System.out.println("\n[1] Inserir  [2] Remover  [3] Buscar  [4] Mostrar  [5] Limpar  [0] Sair");
+        System.out.println("\n[1] Inserir  [2] Remover  [3] Buscar  [4] Mostrar  [5] Limpar");
+        System.out.println("[6] Merge Sort nos números da árvore  [7] Merge Sort em números avulsos  [0] Sair");
         System.out.print("Opção: ");
     }
 
+    private boolean perguntarSimOuNao(String mensagem) {
+        System.out.print(mensagem);
+        if (!leitor.hasNextLine()) {
+            return false;
+        }
+        return leitor.nextLine().trim().toLowerCase().startsWith("s");
+    }
+
+    /** Lê uma linha e converte em inteiros; valores inválidos são avisados e ignorados. */
     private List<Integer> lerNumeros(String mensagem) {
         System.out.print(mensagem);
         List<Integer> numeros = new ArrayList<>();
