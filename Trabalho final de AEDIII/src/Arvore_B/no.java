@@ -2,13 +2,13 @@ package Arvore_B;
 
 class No {
     private final int[] chaves;
-    private final No[] filhos;
+    private final Arvore_B.No[] filhos;
     private int quantidadeChaves;
     private final boolean folha;
  
     No(int grauMinimo, boolean folha) {
         this.chaves = new int[2 * grauMinimo];
-        this.filhos = new No[2 * grauMinimo + 1];
+        this.filhos = new Arvore_B.No[2 * grauMinimo + 1];
         this.quantidadeChaves = 0;
         this.folha = folha;
     }
@@ -21,11 +21,11 @@ class No {
         chaves[indice] = valor;
     }
  
-    No obterFilho(int indice) {
+    Arvore_B.No obterFilho(int indice) {
         return filhos[indice];
     }
  
-    void definirFilho(int indice, No filho) {
+    void definirFilho(int indice, Arvore_B.No filho) {
         filhos[indice] = filho;
     }
  

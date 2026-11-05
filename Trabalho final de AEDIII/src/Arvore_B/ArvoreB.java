@@ -8,7 +8,7 @@ public class ArvoreB {
     private final int grauMinimo;
     private final int maximoChaves;
     private final int minimoChaves;
-    private No raiz;
+    private Arvore_B.No raiz;
  
     public ArvoreB() {
         this(2);
@@ -30,7 +30,7 @@ public class ArvoreB {
         return buscarNoNo(raiz, chave);
     }
  
-    private boolean buscarNoNo(No no, int chave) {
+    private boolean buscarNoNo(Arvore_B.No no, int chave) {
         if (no == null) {
             return false;
         }
@@ -52,13 +52,13 @@ public class ArvoreB {
             return false;
         }
         if (raiz == null) {
-            raiz = new No(grauMinimo, true);
+            raiz = new Arvore_B.No(grauMinimo, true);
         }
         inserirNoNo(raiz, chave);
  
         // Se a raiz transbordou, ela quebra e a chave do meio vira a nova raiz.
         if (raiz.obterQuantidadeChaves() > maximoChaves) {
-            No novaRaiz = new No(grauMinimo, false);
+            Arvore_B.No novaRaiz = new Arvore_B.No(grauMinimo, false);
             novaRaiz.definirFilho(0, raiz);
             quebrarFilho(novaRaiz, 0);
             raiz = novaRaiz;
@@ -66,7 +66,7 @@ public class ArvoreB {
         return true;
     }
  
-    private void inserirNoNo(No no, int chave) {
+    private void inserirNoNo(Arvore_B.No no, int chave) {
         if (no.ehFolha()) {
             int i = no.obterQuantidadeChaves() - 1;
             while (i >= 0 && chave < no.obterChave(i)) {
@@ -88,13 +88,13 @@ public class ArvoreB {
     }
  
     
-    private void quebrarFilho(No pai, int indice) {
-        No esquerdo = pai.obterFilho(indice);
+    private void quebrarFilho(Arvore_B.No pai, int indice) {
+        Arvore_B.No esquerdo = pai.obterFilho(indice);
         int meio = grauMinimo - 1; // com número par de chaves, usa o meio da esquerda
         int chaveDoMeio = esquerdo.obterChave(meio);
         int quantidadeDireita = esquerdo.obterQuantidadeChaves() - meio - 1;
  
-        No direito = new No(grauMinimo, esquerdo.ehFolha());
+        Arvore_B.No direito = new Arvore_B.No(grauMinimo, esquerdo.ehFolha());
         for (int j = 0; j < quantidadeDireita; j++) {
             direito.definirChave(j, esquerdo.obterChave(meio + 1 + j));
         }
@@ -135,7 +135,7 @@ public class ArvoreB {
         return true;
     }
  
-    private void removerDoNo(No no, int chave) {
+    private void removerDoNo(Arvore_B.No no, int chave) {
         int indice = no.indicePrimeiraChaveMaiorOuIgual(chave);
         boolean achouNesteNo = indice < no.obterQuantidadeChaves()
                 && no.obterChave(indice) == chave;
@@ -160,23 +160,23 @@ public class ArvoreB {
         }
     }
  
-    private void removerChaveDeFolha(No folha, int indice) {
+    private void removerChaveDeFolha(Arvore_B.No folha, int indice) {
         for (int i = indice + 1; i < folha.obterQuantidadeChaves(); i++) {
             folha.definirChave(i - 1, folha.obterChave(i));
         }
         folha.definirQuantidadeChaves(folha.obterQuantidadeChaves() - 1);
     }
  
-    private int obterSucessor(No no, int indice) {
-        No atual = no.obterFilho(indice + 1);
+    private int obterSucessor(Arvore_B.No no, int indice) {
+        Arvore_B.No atual = no.obterFilho(indice + 1);
         while (!atual.ehFolha()) {
             atual = atual.obterFilho(0);
         }
         return atual.obterChave(0);
     }
  
-    private int obterPredecessor(No no, int indice) {
-        No atual = no.obterFilho(indice);
+    private int obterPredecessor(Arvore_B.No no, int indice) {
+        Arvore_B.No atual = no.obterFilho(indice);
         while (!atual.ehFolha()) {
             atual = atual.obterFilho(atual.obterQuantidadeChaves());
         }
@@ -184,7 +184,7 @@ public class ArvoreB {
     }
  
    
-    private void reequilibrarFilho(No pai, int indice) {
+    private void reequilibrarFilho(Arvore_B.No pai, int indice) {
         if (pai.obterFilho(indice).obterQuantidadeChaves() >= minimoChaves) {
             return;
         }
@@ -202,9 +202,9 @@ public class ArvoreB {
         }
     }
  
-    private void emprestarDoIrmaoEsquerdo(No pai, int indice) {
-        No filho = pai.obterFilho(indice);
-        No irmao = pai.obterFilho(indice - 1);
+    private void emprestarDoIrmaoEsquerdo(Arvore_B.No pai, int indice) {
+        Arvore_B.No filho = pai.obterFilho(indice);
+        Arvore_B.No irmao = pai.obterFilho(indice - 1);
  
         for (int i = filho.obterQuantidadeChaves() - 1; i >= 0; i--) {
             filho.definirChave(i + 1, filho.obterChave(i));
@@ -224,9 +224,9 @@ public class ArvoreB {
         irmao.definirQuantidadeChaves(irmao.obterQuantidadeChaves() - 1);
     }
  
-    private void emprestarDoIrmaoDireito(No pai, int indice) {
-        No filho = pai.obterFilho(indice);
-        No irmao = pai.obterFilho(indice + 1);
+    private void emprestarDoIrmaoDireito(Arvore_B.No pai, int indice) {
+        Arvore_B.No filho = pai.obterFilho(indice);
+        Arvore_B.No irmao = pai.obterFilho(indice + 1);
  
         filho.definirChave(filho.obterQuantidadeChaves(), pai.obterChave(indice));
         if (!filho.ehFolha()) {
@@ -249,9 +249,9 @@ public class ArvoreB {
     }
  
   
-    private void fundirFilhos(No pai, int indice) {
-        No filho = pai.obterFilho(indice);
-        No irmao = pai.obterFilho(indice + 1);
+    private void fundirFilhos(Arvore_B.No pai, int indice) {
+        Arvore_B.No filho = pai.obterFilho(indice);
+        Arvore_B.No irmao = pai.obterFilho(indice + 1);
         int posicao = filho.obterQuantidadeChaves();
  
         filho.definirChave(posicao, pai.obterChave(indice));
@@ -282,6 +282,6 @@ public class ArvoreB {
     }
  
     public void imprimir() {
-        System.out.println(ImpressoraArvore.desenhar(raiz));
+        System.out.println(Arvore_B.ImpressoraArvore.desenhar(raiz));
     }
 }

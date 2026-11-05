@@ -23,7 +23,7 @@ class ImpressoraArvore {
         }
     }
  
-    static String desenhar(No raiz) {
+    static String desenhar(Arvore_B.No raiz) {
         if (raiz == null) {
             return "(árvore vazia)";
         }
@@ -38,7 +38,7 @@ class ImpressoraArvore {
         return resultado.toString();
     }
  
-    private static Bloco desenharNo(No no) {
+    private static Bloco desenharNo(Arvore_B.No no) {
         String rotulo = montarRotulo(no);
         int larguraRotulo = rotulo.length();
  
@@ -125,7 +125,7 @@ class ImpressoraArvore {
         return new Bloco(linhas, largura, (primeiro + ultimo) / 2);
     }
  
-    private static String montarRotulo(No no) {
+    private static String montarRotulo(Arvore_B.No no) {
         StringBuilder rotulo = new StringBuilder();
         for (int i = 0; i < no.obterQuantidadeChaves(); i++) {
             rotulo.append('[').append(no.obterChave(i)).append(']');
