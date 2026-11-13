@@ -11,7 +11,7 @@ public class Main {
         boolean executando = true;
         while (executando) {
             System.out.println("\n=== Sistema de Estruturas de Dados ===");
-            System.out.println("[1] Usar Árvores (B, B+ ou Trie)");
+            System.out.println("[1] Usar Árvores (B, B+, Trie ou Patricia)");
             System.out.println("[2] Usar Lista (Merge Sort e Busca Binária)");
             System.out.println("[0] Sair");
             System.out.print("Escolha uma opção: ");
@@ -42,6 +42,7 @@ public class Main {
         System.out.println("[1] Árvore B");
         System.out.println("[2] Árvore B+");
         System.out.println("[3] Árvore Trie (Palavras)");
+        System.out.println("[4] Árvore Patricia (Trie Comprimida)");
         System.out.println("[0] Voltar");
         System.out.print("Escolha uma opção: ");
 
@@ -59,6 +60,9 @@ public class Main {
                 break;
             case "3":
                 new Arvore_Trie.MenuInterativo().iniciar();
+                break;
+            case "4":
+                new Arvore_Patricia.MenuInterativo().iniciar();
                 break;
             case "0":
                 break;

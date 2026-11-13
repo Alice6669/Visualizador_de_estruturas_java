@@ -41,8 +41,6 @@ public class MenuInterativo {
                     System.out.println("Árvore esvaziada.");
                     mostrarArvore();
                     break;
-                case "6": ordenarNumerosDaArvore(); break;
-                case "7": ordenarNumerosAvulsos(); break;
                 case "0": executando = false; break;
                 default: System.out.println("Opção inválida.");
             }
@@ -83,23 +81,6 @@ public class MenuInterativo {
         }
     }
 
-    private void ordenarNumerosDaArvore() {
-        if (numerosInseridos.isEmpty()) {
-            System.out.println("A árvore está vazia, não há números para ordenar.");
-            return;
-        }
-        executarMergeSort(numerosInseridos);
-    }
-
-    private void ordenarNumerosAvulsos() {
-        List<Integer> numeros = lerNumeros("Digite os números a ordenar (separados por espaço): ");
-        if (numeros.isEmpty()) {
-            System.out.println("Nenhum número informado.");
-            return;
-        }
-        executarMergeSort(numeros);
-    }
-
     private void executarMergeSort(List<Integer> numeros) {
         int[] vetor = numeros.stream().mapToInt(Integer::intValue).toArray();
         System.out.println("\nAntes:  " + Arrays.toString(vetor));
@@ -122,7 +103,7 @@ public class MenuInterativo {
 
     private void exibirMenu() {
         System.out.println("\n[1] Inserir  [2] Remover  [3] Buscar  [4] Mostrar  [5] Limpar");
-        System.out.println("[6] Merge Sort nos números da árvore  [7] Merge Sort em números avulsos  [0] Sair");
+        System.out.println("[0] Sair");
         System.out.print("Opção: ");
     }
 

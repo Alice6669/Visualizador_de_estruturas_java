@@ -97,7 +97,11 @@ public class Busca_binaria {
                 System.out.print("<" + Lista[meio] + ">, ");
                 continue;
             }
-            System.out.print(", " + Lista[i]);
+            if(i < (Lista.length - 1)){
+                System.out.print(Lista[i] + ", ");
+            } else {
+                System.out.print(Lista[i]);
+            }
         }
         System.out.println("]\n");
     }
